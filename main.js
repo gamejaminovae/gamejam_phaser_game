@@ -1,3 +1,8 @@
+/*
+ * SUMÁRIO
+ * enquanto segura player pula mais auto
+ */
+
 function main(){
     var config = {
         type: Phaser.AUTO,
@@ -6,7 +11,7 @@ function main(){
         physics: {
             default: 'arcade',
             arcade: {
-                gravity: { y: 300 },
+                gravity: { y: 1500 }, // No intestino não terá água
                 debug: false
             }
         },
@@ -52,7 +57,7 @@ function main(){
         // PLAYER
         player = this.physics.add.sprite(100, 450, 'dude');
 
-        player.setBounce(0.2);
+        player.setBounce(.1);
         player.setCollideWorldBounds(true);
 
         this.anims.create({
@@ -98,9 +103,13 @@ function main(){
     function collectStar (player, star)
     {
         star.disableBody(true, true);
+
+        score += 10;
+        scoreText.setText('Score: ' + score);
     }
 
     var cursors;
+    var playerVel = 0;
     function update ()
     {
         cursors = this.input.keyboard.createCursorKeys();
@@ -125,7 +134,8 @@ function main(){
 
         if (cursors.up.isDown && player.body.touching.down)
         {
-            player.setVelocityY(-330);
+            playerVel += -330;
+            player.setVelocityY(playerVel);
         }
     }
 }
